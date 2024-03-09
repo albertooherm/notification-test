@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notifications_log', function (Blueprint $table) {
+        Schema::create('notification_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('category');
-            $table->string('notification_type');
+            $table->string('type');
             $table->text('message');
+            $table->string('notification_channel');
+            $table->timestamp('sent_at')->useCurrent();
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notifications_log');
+        Schema::dropIfExists('notification_logs');
     }
 };
