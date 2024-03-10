@@ -9,6 +9,8 @@ class User extends Model
 {
     use HasFactory;
 
+    protected $table = "users";
+
     protected $fillable = [
         'name', 'email', 'phone_number', 'subscribed_categories', 'notification_channels'
     ];
@@ -17,5 +19,4 @@ class User extends Model
         'subscribed_categories' => 'array',
         'notification_channels' => 'array',
     ];
-
 }

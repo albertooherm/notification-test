@@ -13,7 +13,7 @@ class NotificationLogsTableSeeder extends Seeder
         $users = User::all();
 
         foreach ($users as $user) {
-            NotificationLog::factory()->count(5)->create([
+            NotificationLog::factory()->count(2)->create([
                 'user_id' => $user->id,
             ]);
         }

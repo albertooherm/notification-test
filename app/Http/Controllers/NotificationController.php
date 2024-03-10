@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\NotificationLog;
 use App\Services\NotificationService;
-
 
 class NotificationController extends Controller
 {
@@ -19,21 +17,28 @@ class NotificationController extends Controller
 
     public function showForm()
     {
-        return view('notifications.form');
+        $logs = NotificationLog::with('user')->orderBy('id', 'asc')->paginate(10);
+        return view('notifications.index', compact('logs'));
     }
 
     public function sendNotification(Request $request)
     {
         $request->validate([
             'category' => 'required',
-            'message' => 'required'
+            'message' => 'required',
         ]);
 
         $category = $request->input('category');
         $message = $request->input('message');
 
-        $this->notificationService->sendNotificationToSubscribers($category, $message);
+        $notificationSent = $this->notificationService->sendNotificationToSubscribers($category, $message);
 
-        return back()->with('success', 'Notifications sent successfully!');
+        if ($notificationSent) {
+
+            return back()->with('success', 'Notifications sent successfully!');
+        } else {
+
+            return back()->with('error', 'Failed to send notifications. Please try again.');
+        }
     }
 }

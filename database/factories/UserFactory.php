@@ -19,8 +19,8 @@ class UserFactory extends Factory
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'phone_number' => $this->faker->phoneNumber,
-            'subscribed_categories' => json_encode(['Sports', 'Finance']),
-            'notification_channels' => json_encode(['E-Mail', 'SMS']),
+            'subscribed_categories' => ['categories' => ['Sports', 'Finance', 'Movies']],
+            'notification_channels' => ['channels' => ['E-Mail', 'SMS', 'Push Notification']],
             'updated_at' => now(),
             'created_at' => now(),
         ];
